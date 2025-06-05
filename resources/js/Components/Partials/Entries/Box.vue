@@ -1,12 +1,13 @@
 <script setup>
 import { Link, router } from '@inertiajs/vue3'
+
 const props = defineProps({
   box: Object
 })
 
 const deleteBox = () => {
   if (confirm('Êtes-vous sûr de vouloir supprimer cette box ?')) {
-    router.delete(`/boxs/${props.box.id}`)
+    router.delete(route('boxs.destroy',props.box.id))
   }
 }
 </script>
@@ -25,12 +26,6 @@ const deleteBox = () => {
         </span>
       </p>
       <div class="mt-4 flex justify-between items-center">
-        <Link
-          :href="`/boxs/${box.id}`"
-          class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Voir détails
-        </Link>
         <Link
           :href="`/boxs/${box.id}/edit`"
           class="inline-block bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"

@@ -1,26 +1,31 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { useForm,usePage } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 defineOptions({
     layout: AuthenticatedLayout
 })
 
+const props = defineProps({
+  box: Object
+})
+
 const form = useForm({
-  name: '',
-  desc: '',
-  lieux: '',
-  prix: '',
-  occupé: 0,
+  name: props.box.name,
+  desc: props.box.desc,
+  lieux: props.box.lieux,
+  prix: props.box.prix,
+  occupé: props.box.occupé
 })
 
 const submit = () => {
-  form.post(route('boxs.store'))
+  form.put(route('boxs.update', props.box.id))
 }
 </script>
 
 <template>
   <div class="container mx-auto py-6">
-    <h1 class="text-2xl font-bold mb-4">Créer une Box</h1>
+    <h1 class="text-2xl font-bold mb-4">Modifier la Box</h1>
 
     <!-- Erreurs de validation -->
     <div v-if="form.hasErrors" class="bg-red-100 text-red-800 p-4 rounded mb-4">
@@ -59,8 +64,8 @@ const submit = () => {
         </select>
       </div>
 
-      <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-        Créer
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Mettre à jour
       </button>
     </form>
   </div>

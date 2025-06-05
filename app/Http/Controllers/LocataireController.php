@@ -4,29 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Locataire;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class LocataireController extends Controller
 {
-    // Affiche la liste des locataires pour l'utilisateur connecté
-    public function index()
+    // Affiche la liste des locataires
+    public function index(): Response
     {
         $locataires = Locataire::where('user_id', auth()->id())->get();
 
-        return view('locs.index', compact('locataires'));
+        return Inertia::render('Locs/Index', [
+            'locataires' => $locataires,
+            'flash' => [
+                'success' => session('success'),
+            ],
+        ]);
     }
 
-    // Affiche le formulaire pour créer un nouveau locataire
-    public function create()
+    // Affiche le formulaire de création
+    public function create(): Response
     {
-        return view('locs.create');
+        return Inertia::render('Locs/Create');
     }
 
-    // Enregistre un nouveau locataire dans la base de données
+    // Stocke un nouveau locataire
     public function store(Request $request)
     {
-        // Validation des données envoyées
-        $validatedData = $request->validate([
+        $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'tel' => 'required|string|max:15',
             'email' => 'required|email|unique:locataires,email',
@@ -34,70 +40,75 @@ class LocataireController extends Controller
             'compte_bancaire' => 'nullable|string|max:255',
         ]);
 
-        // Ajout de l'utilisateur connecté comme propriétaire du locataire
-        $validatedData['user_id'] = auth()->id();
+        $validated['user_id'] = auth()->id();
 
-        // Création du locataire
-        Locataire::create($validatedData);
+        Locataire::create($validated);
 
-        // Redirection avec message de succès
         return redirect()->route('locs.index')->with('success', 'Locataire créé avec succès.');
     }
 
-    // Affiche le formulaire d'édition d'un locataire
-    public function edit($id)
+    // Affiche le formulaire d'édition
+    public function edit($id): Response
     {
         $locataire = Locataire::where('user_id', auth()->id())->findOrFail($id);
 
-        return view('locs.edit', compact('locataire'));
+        return Inertia::render('Locs/Edit', [
+            'locataire' => $locataire,
+        ]);
     }
 
-    // Met à jour un locataire existant
+    // Met à jour un locataire
     public function update(Request $request, $id)
     {
-        // Validation des données
-        $validatedData = $request->validate([
+        $locataire = Locataire::where('user_id', auth()->id())->findOrFail($id);
+
+        $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'tel' => 'required|string|max:15',
-            'email' => 'required|email|unique:locataires,email,' . $id,
+            'email' => 'required|email|unique:locataires,email,' . $locataire->id,
             'adresse' => 'required|string',
             'compte_bancaire' => 'nullable|string|max:255',
         ]);
 
-        // Récupération du locataire appartenant à l'utilisateur connecté
-        $locataire = Locataire::where('user_id', auth()->id())->findOrFail($id);
+        $locataire->update($validated);
 
-        // Mise à jour des informations
-        $locataire->update($validatedData);
-
-        // Redirection avec message de succès
         return redirect()->route('locs.index')->with('success', 'Locataire mis à jour avec succès.');
     }
 
-    public function export()
+    // Supprime un locataire
+    public function destroy($id)
+    {
+        $locataire = Locataire::where('user_id', auth()->id())->findOrFail($id);
+        $locataire->delete();
+
+        return redirect()->route('locs.index')->with('success', 'Locataire supprimé avec succès.');
+    }
+
+    // Exporte les locataires au format CSV
+    public function export(): StreamedResponse
     {
         $fileName = 'locataires_' . now()->format('Y-m-d') . '.csv';
 
         $response = new StreamedResponse(function () {
             $handle = fopen('php://output', 'w');
 
-            // En-tête du fichier CSV
+            // En-tête CSV
             fputcsv($handle, ['ID', 'Nom', 'Email', 'Téléphone', 'Adresse', 'Compte Bancaire']);
 
-            // Récupération des locataires et écriture dans le CSV
-            Locataire::chunk(100, function ($locataires) use ($handle) {
-                foreach ($locataires as $locataire) {
-                    fputcsv($handle, [
-                        $locataire->id,
-                        $locataire->nom,
-                        $locataire->email,
-                        $locataire->tel,
-                        $locataire->adresse,
-                        $locataire->compte_bancaire,
-
-                    ]);
-                }
-            });
+            // Locataires de l'utilisateur
+            Locataire::where('user_id', auth()->id())
+                ->chunk(100, function ($locataires) use ($handle) {
+                    foreach ($locataires as $locataire) {
+                        fputcsv($handle, [
+                            $locataire->id,
+                            $locataire->nom,
+                            $locataire->email,
+                            $locataire->tel,
+                            $locataire->adresse,
+                            $locataire->compte_bancaire,
+                        ]);
+                    }
+                });
 
             fclose($handle);
         });
@@ -106,15 +117,5 @@ class LocataireController extends Controller
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
 
         return $response;
-    }
-
-    // Supprime un locataire
-    public function destroy($id)
-    {
-        $locataire = Locataire::where('user_id', auth()->id())->findOrFail($id);
-
-        $locataire->delete();
-
-        return redirect()->route('locs.index')->with('success', 'Locataire supprimé avec succès.');
     }
 }

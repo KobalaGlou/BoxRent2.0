@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('locataires')->name('locataires.')->controller(LocataireController::class)->group(function () {
+    Route::prefix('locataires')->name('locs.')->controller(LocataireController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
