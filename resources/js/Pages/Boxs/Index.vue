@@ -21,7 +21,7 @@ const hasBoxs = computed(() => props.boxs.length > 0)
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
       <!-- Message de succès -->
-      <div v-if="success" class="bg-blue-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+      <div v-if="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
         <strong class="font-bold">Succès !</strong>
         <span class="block sm:inline">{{ success }}</span>
       </div>
@@ -32,7 +32,7 @@ const hasBoxs = computed(() => props.boxs.length > 0)
           <div class="mb-6">
             <Link
               href="/boxs/create"
-              class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              class="inline-block bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             >
               Ajouter une nouvelle box
             </Link>
