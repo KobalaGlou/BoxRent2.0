@@ -19,4 +19,6 @@ jobs:
             cd ${{ secrets.PROJECT_PATH }}
             git config --global --add safe.directory ${{ secrets.PROJECT_PATH }}
             git pull origin main
+            composer install
+            npm install
             npm run build
