@@ -1,6 +1,10 @@
 <script setup>
 import { useForm, Link } from "@inertiajs/vue3";
 import { ref } from "vue";
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+defineOptions({
+    layout: GuestLayout
+})
 
 const loading = ref(false);
 
