@@ -18,10 +18,7 @@ const user = computed(() => page.props.auth.user);
       <ul class="flex space-x-5">
         <li><Link :href="route('boxs.index')" class="hover:text-orange-400">Mes Boxs</Link></li>
         <li><Link :href="route('locs.index')" class="hover:text-orange-400">Mes Locataires</Link></li>
-        <li><Link :href="route('contrats.index')" class="hover:text-orange-400">Mes Contrats</Link></li>
-        <li><Link :href="route('templates.index')" class="hover:text-orange-400">Mes Templates</Link></li>
-        <li><Link :href="route('factures.impayes')" class="hover:text-orange-400">Mes Factures</Link></li>
-        <li><Link :href="route('impots.index')" class="hover:text-orange-400">Mes Impôts</Link></li>
+        <li><Link :href="route('test')" class="hover:text-orange-400">Test Vitest</Link></li>
 
       </ul>
     </div>

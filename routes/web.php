@@ -79,5 +79,8 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/impots', [ImpotsController::class, 'index'])->name('impots.index');
-});
 
+    Route::get('/test', function () {
+        return Inertia::render('HelloWorld');
+    })->name('test');
+});
