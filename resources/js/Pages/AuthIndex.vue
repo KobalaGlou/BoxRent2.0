@@ -10,15 +10,10 @@ defineOptions({
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
-// Debug pour voir ce que Vue reçoit
-console.log('Welcome.vue - Props auth:', page.props)
 </script>
 
 <template>
-    <section class="min-h-screen flex flex-col justify-center items-center bg-white text-gray-900 px-4">
-      <!-- Debug visuel -->
-      <div class="mb-4 p-4 bg-gray-100 rounded">
-      </div>
+    <section class=" flex flex-col justify-center items-center bg-white text-gray-900 px-4" style="min-height: 30vh;">
       
       <div class="max-w-2xl text-center">
         <h1 class="text-4xl font-extrabold mb-4">Bienvenue sur votre tableau de bord</h1>

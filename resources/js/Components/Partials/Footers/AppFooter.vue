@@ -4,7 +4,7 @@
       
       <!-- Colonne principale (Nom app + réseaux sociaux) -->
       <div class="col-span-2 md:col-span-2 flex flex-col items-start space-y-4">
-        <h2 class="text-2xl font-bold">MonApp</h2>
+        <h2 class="text-2xl font-bold">BoxRent</h2>
         <div class="flex space-x-4 text-xl">
           <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook"></i></a>
           <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin"></i></a>

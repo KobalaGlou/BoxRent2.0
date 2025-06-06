@@ -27,8 +27,8 @@ const handleSubmit = () => {
 </script>
 
 <template>
-    <div class="w-full flex items-center justify-center bg-gray-100">
-        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div class="w-full flex items-center justify-center bg-gray-100 ">
+        <div class="bg-white p-2 rounded-lg shadow-md w-full max-w-md">
             <h2 class="text-2xl font-bold text-center mb-6">Connexion</h2>
 
             <form @submit.prevent="handleSubmit" class="space-y-4">

@@ -8,11 +8,11 @@ const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
-  <nav class="bg-gray-900 text-white py-5 px-15 flex justify-between items-center">
+  <nav class="bg-gray-900 text-white py-5 px-8 flex justify-between items-center">
     <!-- Bloc gauche : Titre et navigation -->
     <div class="flex items-center space-x-12">
       <!-- Nom de l'app -->
-      <div class="text-xl font-bold">BoxRent</div>
+      <div class="text-xl font-bold mr-10">BoxRent</div>
 
       <!-- Liens de navigation -->
       <ul class="flex space-x-5">
