@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 
-const message = ref('Hello, Vue!')
+const message = ref('Hello Vue!')
 
 function updateMessage() {
   message.value = 'You clicked the button!'
